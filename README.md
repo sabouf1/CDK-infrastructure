@@ -1,41 +1,76 @@
-# My CDK Stack
+# AWS CDK Classic Infrastructure Template
 
-This is a Git repository that contains AWS Cloud Development Kit (CDK) code for creating and managing AWS resources using TypeScript. The CDK stack defined in this repository creates a set of AWS resources, including a Virtual Private Cloud (VPC), an EC2 instance, an Amazon Simple Queue Service (SQS) queue, an Amazon Simple Notification Service (SNS) topic, and an AWS Secrets Manager secret. 
+This repository contains an AWS Cloud Development Kit (CDK) project that defines and provisions classic infrastructure components on AWS. This CDK stack creates a Virtual Private Cloud (VPC), an EC2 instance, an SQS queue, an SNS topic, and a Secrets Manager secret.
+
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [CDK Stack Details](#cdk-stack-details)
+- [Deployment](#deployment)
+- [Resources](#resources)
+- [License](#license)
 
 ## Prerequisites
 
-Before you can use this CDK stack, you'll need the following prerequisites:
+Before you begin, make sure you have the following prerequisites installed:
 
-- [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed on your development machine.
-- An AWS account with the necessary permissions and credentials configured.
+- [AWS CLI](https://aws.amazon.com/cli/)
+- [AWS CDK](https://aws.amazon.com/cdk/)
 
-## Installation
+You also need to configure your AWS credentials using `aws configure` or other suitable methods.
 
-To get started with this CDK stack, follow these steps:
+## Getting Started
 
-1. Clone this Git repository to your local machine:
-
-   ```bash
-   git clone <repository-url>
-   ```
-
-2. Change into the project directory:
+1. Clone this repository to your local machine:
 
    ```bash
-   cd <repository-directory>
+   git clone https://github.com/sabouf1/aws-cdk-classic-infra-template.git
    ```
 
-3. Install the required dependencies using npm:
+2. Change your working directory to the cloned repository:
+
+   ```bash
+   cd aws-cdk-classic-infra-template
+   ```
+
+3. Install project dependencies:
 
    ```bash
    npm install
    ```
 
-## Usage
+4. Modify the CDK stack code in the `lib/aws-cdk-classic-infra-template-stack.ts` file to customize the infrastructure components as needed.
 
-You can deploy the CDK stack to your AWS environment by using the following commands:
+## CDK Stack Details
 
-1. Bootstrap the CDK environment (if you haven't already done so):
+The CDK stack defined in this project creates the following AWS resources:
+
+- Virtual Private Cloud (VPC)
+  - CIDR block: `10.30.0.0/16`
+  - 3 Availability Zones (AZs)
+  - 1 NAT Gateway
+
+- Amazon EC2 Instance
+  - Amazon Linux 2 AMI
+  - T2 Micro instance type
+  - Security group allowing inbound traffic
+
+- Amazon SQS Queue
+
+- Amazon SNS Topic
+
+- AWS Secrets Manager Secret
+  - Secret name: `metrodb-secrets`
+  - Secret string template with a generated password
+
+- IAM Role for the EC2 instance with permissions to access the Secrets Manager secret
+
+## Deployment
+
+To deploy the CDK stack and create the infrastructure, follow these steps:
+
+1. Bootstrap the CDK if you haven't already (only needed once per AWS account/region):
 
    ```bash
    cdk bootstrap
@@ -47,42 +82,14 @@ You can deploy the CDK stack to your AWS environment by using the following comm
    cdk deploy
    ```
 
-This will create the specified AWS resources defined in the `MyCdkStack` class within the `lib/my-cdk-stack.ts` file.
+3. After the deployment is complete, you will see the output with information about the created resources.
 
-## Configuration
+## Resources
 
-The CDK stack is defined in the `MyCdkStack` class, and it creates the following AWS resources:
-
-- **VPC**: A Virtual Private Cloud with a specified CIDR range and NAT gateways.
-
-- **Security Group**: An EC2 Security Group associated with the VPC.
-
-- **EC2 Instance**: An EC2 instance launched within the VPC, with a specific instance type and Amazon Machine Image (AMI).
-
-- **SQS Queue**: An Amazon SQS queue.
-
-- **SNS Topic**: An Amazon SNS topic.
-
-- **Secrets Manager Secret**: An AWS Secrets Manager secret with a predefined username and a generated password.
-
-The CDK stack also grants the EC2 instance permissions to access the Secrets Manager secret.
-
-You can customize the configuration of these resources by modifying the code in the `MyCdkStack` class.
-
-## Cleanup
-
-To remove the AWS resources created by this CDK stack, you can run the following command:
-
-```bash
-cdk destroy
-```
-
-This will delete the stack and its associated resources.
+- [AWS CDK Documentation](https://docs.aws.amazon.com/cdk/latest/guide/home.html)
+- [AWS CDK API Reference](https://docs.aws.amazon.com/cdk/api/latest/)
+- [AWS CDK Examples](https://github.com/aws-samples/aws-cdk-examples)
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-This CDK stack was created using the AWS Cloud Development Kit (CDK) and AWS CDK libraries for TypeScript. Special thanks to the AWS CDK community and contributors for making infrastructure as code easy and efficient.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
